@@ -79,4 +79,5 @@ StuDF[c(1,5)]
 ```{r}
 StuDF[c(T,F,F,F,F),c(F,T,F)]
 StuDF[c(T,F,F,T,F),]
+```
 
