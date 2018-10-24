@@ -1,8 +1,6 @@
 ---
-title: "Ch4"
-author: "林茂廷"
-date: "10/22/2018"
-output: html_document
+title: "2108-10-24"
+output: html_notebook
 ---
 
 ## Set up libraries
@@ -81,8 +79,4 @@ StuDF[c(1,5)]
 ```{r}
 StuDF[c(T,F,F,F,F),c(F,T,F)]
 StuDF[c(T,F,F,T,F),]
-```
-```{r}
-
-```
 
