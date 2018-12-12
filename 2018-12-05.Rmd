@@ -22,7 +22,7 @@ libraryData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data
 ```{r}
 libraryData %>%
   mutate_at(
-    vars(學院,書籍館藏地,書籍類別),
+    vars(`學院`,`書籍館藏地`,`書籍類別`),
     funs(
      as.factor(.)
     )
@@ -30,7 +30,7 @@ libraryData %>%
 
 libraryData %>%
   mutate(
-    借閱時間=ymd_hms(借閱時間,tz="Asia/Taipei")
+    `借閱時間`=ymd_hms(`借閱時間`,tz="Asia/Taipei")
   ) -> libraryData
 
 
@@ -38,52 +38,52 @@ libraryData %>%
 
 ```{r}
 ## 1
-max(libraryData$讀者借閱冊數)-> maxNumber
-min(libraryData$讀者借閱冊數)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)
+max(libraryData$`讀者借閱冊數`)-> maxNum
+min(libraryData$`讀者借閱冊數`)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)
 ```
 
 
 ```{r}
 ## 1
-max(libraryData$讀者借閱冊數)-> maxNumber
-min(libraryData$讀者借閱冊數)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)
+max(libraryData$`讀者借閱冊數`)-> maxNum
+min(libraryData$`讀者借閱冊數`)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)
 
 ## 2
-max(libraryData$入學年)-> maxNumber
-min(libraryData$入學年)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)
+max(libraryData$`入學年`)-> maxNum
+min(libraryData$`入學年`)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)
 
 ## 3
-max(libraryData$書籍上架年月)-> maxNumber
-min(libraryData$書籍上架年月)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)
+max(libraryData$`書籍上架年月`)-> maxNum
+min(libraryData$`書籍上架年月`)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)
 ```
 
 minMaxFun(x)
 ```{r}
 minMaxFun <- function(x){
-max(x)-> maxNumber
-min(x)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)}
+max(x)-> maxNum
+min(x)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)}
 ```
 
 ```{r}
-minMaxFun(libraryData$讀者借閱冊數)-> a1
+minMaxFun(libraryData$`讀者借閱冊數`) -> a1
 a1
-minMaxFun(libraryData$入學年)->a2
+minMaxFun(libraryData$`入學年`) -> a2
 a2
-minMaxFun(libraryData$書籍上架年月)->a3
+minMaxFun(libraryData$`書籍上架年月`) -> a3
 a3
 ```
 
 
 ```{r}
 minMaxFun2 <- function(x){
-max(x)-> maxNumber
-min(x)-> minNumber
-paste0("最大值： ",maxNumber, " 最小值： ",minNumber)-> result
+max(x)-> maxNum
+min(x)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum) -> result
 return(result)
 }
 ```
@@ -91,23 +91,123 @@ return(result)
 
 ```{r}
 minMaxFun3 <- function(x){
-  max(x) ->maxNumber
-  min(x) ->minNumber
-  paste0("最大值: "maxNumber,"最小值: ",minNumber)
-  return(maxNumber)
+max(x)-> maxNum
+min(x)-> minNum
+paste0("最大值： ",maxNum, " 最小值： ",minNum)
+return(maxNum)
+}
+```
+
+
+
+```{r}
+minMaxFun3(libraryData$`讀者借閱冊數`) -> a1
+a1
+minMaxFun3(libraryData$`入學年`) -> a2
+a2
+minMaxFun3(libraryData$`書籍上架年月`) -> a3
+a3
+```
+
+
+```{r}
+minMaxFun4 <- function(x){
+max(x)-> maxNum
+min(x)-> minNum
+print(
+  paste0("最大值： ",maxNum, " 最小值： ",minNum)
+  ) 
+return(maxNum)
+}
+```
+
+```{r}
+minMaxFun4(libraryData$`讀者借閱冊數`) -> a1
+a1
+```
+
+###  練習
+
+```{r}
+!is.numeric(libraryData$`學號`)
+
+!is.numeric(libraryData$`書籍類別`)
+
+```
+
+```{r}
+
+not_numeric<- function(x){
+  !is.numeric(x)
+}
+```
+
+```{r}
+not_numeric<- function(x){
+  !is.numeric(x) -> result
+  return(result)
 }
 ```
 
 
 ```{r}
-minMaxFun3(libraryData$讀者借閱冊數)-> a1
-a1
-minMaxFun3(libraryData$入學年)->a2
-a2
-minMaxFun3(libraryData$書籍上架年月)->a3
-a3
+not_numeric(libraryData$`學號`)
+```
+TRUE
+
+### 練習：
+找出屬於"人文學院"的子樣本。
+
+```{r}
+(libraryData$`學院`=="人文學院")-> logIndex
+libraryData[logIndex,]-> subsample
 ```
 
+找出屬於"社會科學院"的子樣本。
+
+```{r}
+(libraryData$`學院`=="社會科學院")-> logIndex
+libraryData[logIndex,]-> subsample
+```
+
+```{r}
+findMyCollege<-function(x){
+  (libraryData$`學院`==x)-> logIndex
+libraryData[logIndex,]-> subsample
+return(subsample)
+}
+```
+
+## Grouping and summarise group feature
+```{r}
+## grouping
+findMyCollege("人文學院")-> sample1
+## group feature summary
+nrow(sample1)
+
+
+findMyCollege("社會科學院") -> sample2
+nrow(sample2)
+```
+
+```{r}
+libraryData %>%
+  group_by(`學院`) %>%
+  summarise(
+    `學院借閱冊數`=length(`學號`)
+  )
+  
+```
+
+```{r}
+libraryData %>%
+  select(`讀者借閱冊數`,`書籍出版日期`) %>%
+  summarise(
+    `讀者平均借閱冊數`=mean(`讀者借閱冊數`),
+    `最小書籍出版日期`=min(`書籍出版日期`),
+    `最大書籍出版日期`=max(`書籍出版日期`)
+  )
+```
 
 
 
